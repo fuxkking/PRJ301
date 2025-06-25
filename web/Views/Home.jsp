@@ -12,6 +12,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <form action="${pageContext.request.contextPath}/Login" method="get">
+            <input type="submit" value="return login" />
+        </form>
     </body>
 </html>
