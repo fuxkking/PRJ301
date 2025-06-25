@@ -24,8 +24,48 @@ public class UserDAO extends DBContext {
             status = "Connection failed: " + e.getMessage();
         }
     }
+    public boolean isUsernameDuplicate(String name) {
+        try {
+            String sql = "select * from [users] where username = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, name);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                    return true;
+            }
+        } catch (SQLException ex) {
+        }
+        return false;
+    }
+    public boolean isEmailDuplicate(String email) {
+        try {
+            String sql = "select * from [users] where email = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, email);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                    return true;
+            }
+        } catch (SQLException ex) {
+        }
+        return false;
+    }
 
-    public User getAccountByID(String username, String pass) {
+     public boolean isPhoneDuplicate(String phone) {
+          try {
+            String sql = "select * from [users] where phone = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, phone);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                    return true;
+            }
+        } catch (SQLException ex) {
+        }
+        return false;
+    }
+
+    public User getAccount(String username, String pass) {
         try {
             String sql = "select * from [users] where username = ? and [password] = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -33,7 +73,7 @@ public class UserDAO extends DBContext {
             stm.setString(2, pass);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
-                User account = new User(rs.getString("username"), rs.getString("password"));
+                User account = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("email"), rs.getString("password"), rs.getString("role"), rs.getString("phone"), rs.getInt("points"));
                 return account;
             }
         } catch (SQLException ex) {
@@ -64,20 +104,6 @@ public class UserDAO extends DBContext {
         return Users;
     }
 
-    public boolean isUsernameDuplicate(String name) {
-        try {
-            String sql = "select * from [users] where username = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, name);
-            ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                    return true;
-            }
-        } catch (SQLException ex) {
-        }
-        return false;
-    }
-
     public void insertUser(User user) {
 
         try {
@@ -86,10 +112,12 @@ public class UserDAO extends DBContext {
                     + "           ,[email]\n"
                     + "           ,[password]\n"
                     + "           ,[role]\n"
+                    + "           ,[image]\n"
                     + "           ,[phone]\n"
                     + "           ,[points])\n"
                     + "     VALUES\n"
                     + "           (?\n"
+                    + "           ,?\n"
                     + "           ,?\n"
                     + "           ,?\n"
                     + "           ,?\n"
@@ -101,8 +129,9 @@ public class UserDAO extends DBContext {
             stm.setString(2, user.getEmail());
             stm.setString(3, user.getPassword());
             stm.setString(4, "user");
-            stm.setString(5, user.getPhone());
-            stm.setInt(6, 0);
+            stm.setString(5, user.getImage());
+            stm.setString(6, user.getPhone());
+            stm.setInt(7, 0);
             stm.executeUpdate();
 
         } catch (Exception ex) {
@@ -110,42 +139,9 @@ public class UserDAO extends DBContext {
 
     }
 
-    public boolean isEmailDuplicate(String email) {
-        try {
-            String sql = "select * from [users] where email = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, email);
-            ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                    return true;
-            }
-        } catch (SQLException ex) {
-        }
-        return false;
-    }
-
-     public boolean isPhoneDuplicate(String phone) {
-          try {
-            String sql = "select * from [users] where phone = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, phone);
-            ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                    return true;
-            }
-        } catch (SQLException ex) {
-        }
-        return false;
-    }
-
     public static void main(String[] args) {
         UserDAO d = new UserDAO();
-
-        System.out.println(d.isUsernameDuplicate("ab"));
-        System.out.println(d.isEmailDuplicate("nq061205@gmail.com"));
-        System.out.println(d.isPhoneDuplicate("03373643311"));
-        
+        User da = d.getAccount("ab", "1");
+        System.out.println(da);
     }
-
-   
 }

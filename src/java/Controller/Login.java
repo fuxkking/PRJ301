@@ -12,6 +12,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -73,6 +74,20 @@ public class Login extends HttpServlet {
         request.setAttribute("username", username);
 
         request.getRequestDispatcher("Views/Login.jsp").forward(request, response);
+    
+
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if (c.getName().equals("username")) {
+                    username = c.getValue();
+                }
+             
+            }
+        }
+
+        request.setAttribute("username", username);
+
+        request.getRequestDispatcher("Views/Login.jsp").forward(request, response);
     }
 
     /**
@@ -90,14 +105,9 @@ public class Login extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         UserDAO d = new UserDAO();
-        if (d.getAccountByID(username, password) != null) {
-            if (remember) {
-                Cookie u = new Cookie("username", username);
-
-                u.setMaxAge(60 * 60 * 24);
-
-                response.addCookie(u);
-            }
+        HttpSession session = request.getSession();
+        if(d.getAccount(username, password) != null){
+            session.setAttribute("account", d.getAccount(username, password));
             response.sendRedirect("Views/Home.jsp");
         } else {
             request.setAttribute("error", "User or pass wrong");

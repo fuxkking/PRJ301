@@ -28,7 +28,7 @@ public class User {
         this.password = password;
         this.role = role;
         this.phone = phone;
-        this.points = points;
+        this.points = 0;
         this.image = "https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg";
         
     }
@@ -36,6 +36,8 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        this.image = "https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg";
+        
     }
 
     
@@ -102,11 +104,13 @@ public class User {
     public void setImage(String image) {
         this.image = image;
     }
-    
+
     @Override
     public String toString() {
-        return "User{" + "userID=" + userID + ", username=" + username + ", email=" + email + ", password=" + password + ", role=" + role + ", phone=" + phone + ", points=" + points + '}';
+        return "User{" + "userID=" + userID + ", username=" + username + ", email=" + email + ", password=" + password + ", role=" + role + ", phone=" + phone + ", image=" + image + ", points=" + points + '}';
     }
+    
+    
     
     
 }
