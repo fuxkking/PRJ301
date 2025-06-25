@@ -45,12 +45,6 @@
                 </form>
             </div>
         </div>
-        <div id="error-popup" class="popup hidden">
-            <div class="popup-content">
-                <p id="popup-message">Passwords do not match!</p>
-                <button onclick="closePopup()">OK</button>
-            </div>
-        </div>
-
+   
     </body>
 </html>
