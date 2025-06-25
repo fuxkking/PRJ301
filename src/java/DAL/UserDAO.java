@@ -24,6 +24,46 @@ public class UserDAO extends DBContext {
             status = "Connection failed: " + e.getMessage();
         }
     }
+    public boolean isUsernameDuplicate(String name) {
+        try {
+            String sql = "select * from [users] where username = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, name);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                    return true;
+            }
+        } catch (SQLException ex) {
+        }
+        return false;
+    }
+    public boolean isEmailDuplicate(String email) {
+        try {
+            String sql = "select * from [users] where email = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, email);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                    return true;
+            }
+        } catch (SQLException ex) {
+        }
+        return false;
+    }
+
+     public boolean isPhoneDuplicate(String phone) {
+          try {
+            String sql = "select * from [users] where phone = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, phone);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                    return true;
+            }
+        } catch (SQLException ex) {
+        }
+        return false;
+    }
 
     public User getAccount(String username, String pass) {
         try {

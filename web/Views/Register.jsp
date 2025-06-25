@@ -15,19 +15,19 @@
 
                 <form action="${pageContext.request.contextPath}/Register" method="post" class="form">
                     <div class="input-group">
-                        <input type="text" name="username" required>
+                        <input type="text" name="username" value="${username}" required>
                         <label>Username</label>
                     </div>
                     <div class="input-group">
-                        <input type="email" name="email" required>
+                        <input type="email" name="email" value="${email}" required>
                         <label>Email</label>
                     </div>
                     <div class="input-group">
-                        <input type="text" name="phone" required>
+                        <input type="text" name="phone" pattern="^[0-9]{10}$" title="Please enter phone number" value="${phone}" required>
                         <label>Phone</label>
                     </div>
                     <div class="input-group">
-                        <input type="password" name="password" required>
+                        <input type="password" name="password"  value="${password}"required>
                         <label>Password</label>
                     </div>
                     <div class="input-group">
@@ -45,6 +45,6 @@
                 </form>
             </div>
         </div>
-   
+
     </body>
 </html>

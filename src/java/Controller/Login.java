@@ -9,6 +9,7 @@ import DAL.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -54,9 +55,23 @@ public class Login extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-       response.sendRedirect("Views/Login.jsp");
-    } 
+            throws ServletException, IOException {
+        Cookie[] cookies = request.getCookies();
+        String username = "";
+
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if (c.getName().equals("username")) {
+                    username = c.getValue();
+                }
+             
+            }
+        }
+
+        request.setAttribute("username", username);
+
+        request.getRequestDispatcher("Views/Login.jsp").forward(request, response);
+    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.
