@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -70,7 +71,9 @@ public class Login extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         UserDAO d = new UserDAO();
-        if(d.getAccountByID(username, password) != null){
+        HttpSession session = request.getSession();
+        if(d.getAccount(username, password) != null){
+            session.setAttribute("account", d.getAccount(username, password));
             response.sendRedirect("Views/Home.jsp");
         }else{
             request.setAttribute("error", "User or pass wrong");
