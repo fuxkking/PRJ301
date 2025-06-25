@@ -64,6 +64,20 @@ public class UserDAO extends DBContext {
         return Users;
     }
 
+    public boolean isUsernameDuplicate(String name) {
+        try {
+            String sql = "select * from [users] where username = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, name);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                    return true;
+            }
+        } catch (SQLException ex) {
+        }
+        return false;
+    }
+
     public void insertUser(User user) {
 
         try {
@@ -96,9 +110,42 @@ public class UserDAO extends DBContext {
 
     }
 
+    public boolean isEmailDuplicate(String email) {
+        try {
+            String sql = "select * from [users] where email = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, email);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                    return true;
+            }
+        } catch (SQLException ex) {
+        }
+        return false;
+    }
+
+     public boolean isPhoneDuplicate(String phone) {
+          try {
+            String sql = "select * from [users] where phone = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, phone);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                    return true;
+            }
+        } catch (SQLException ex) {
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         UserDAO d = new UserDAO();
-        User da = new User(0, "ab", "av", "1", "user", "123", 0);
-        d.insertUser(da);
+
+        System.out.println(d.isUsernameDuplicate("ab"));
+        System.out.println(d.isEmailDuplicate("nq061205@gmail.com"));
+        System.out.println(d.isPhoneDuplicate("03373643311"));
+        
     }
+
+   
 }

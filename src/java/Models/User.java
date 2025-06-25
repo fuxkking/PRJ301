@@ -15,6 +15,7 @@ public class User {
     private String password;
     private String role;
     private String phone;
+    private String image;
     private int points;
 
     public User() {
@@ -28,6 +29,8 @@ public class User {
         this.role = role;
         this.phone = phone;
         this.points = points;
+        this.image = "https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg";
+        
     }
 
     public User(String username, String password) {

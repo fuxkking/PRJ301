@@ -72,30 +72,58 @@ public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
+        String password = request.getParameter("password");
         String confirmPass = request.getParameter("confirmPassword");
         UserDAO d = new UserDAO();
-        if (!password.equals(confirmPass)) {
-            request.setAttribute("error", "confirm password incorrect");
-            request.getRequestDispatcher("Views/Register.jsp").forward(request, response);
+        //phone
+        //password
+        //Username
+        if (!d.isUsernameDuplicate(username)) {
+            //email
+            if (!d.isEmailDuplicate(email)) {
+                if (!d.isPhoneDuplicate(phone)) {
+                    if (!password.equals(confirmPass)) {
+                        request.setAttribute("username", username);
+                        request.setAttribute("email", email);
+                        request.setAttribute("phone", phone);
+                        request.setAttribute("password", password);
+                        request.setAttribute("error", "confirm password incorrect");
+                        request.getRequestDispatcher("Views/Register.jsp").forward(request, response);
+                    } else {
+                        User u = new User(0, username, email, password, "user", phone, 0);
+                        d.insertUser(u);
+                        response.sendRedirect("Views/Login.jsp");
+                    }
+                } else {
+                    request.setAttribute("username", username);
+                    request.setAttribute("email", email);
+                    request.setAttribute("phone", phone);
+                    request.setAttribute("password", password);
+                    request.setAttribute("error", "Phone is already used");
+                    request.getRequestDispatcher("Views/Register.jsp").forward(request, response);
+                }
+            } else {
+                request.setAttribute("username", username);
+                request.setAttribute("phone", phone);
+                request.setAttribute("password", password);
+                request.setAttribute("error", "Email is already used");
+                request.getRequestDispatcher("Views/Register.jsp").forward(request, response);
+            }
         } else {
-            User u = new User(0, username, email, password, "user", phone, 0);
-            d.insertUser(u);
-            response.sendRedirect("Views/Login.jsp");
+            request.setAttribute("email", email);
+            request.setAttribute("phone", phone);
+            request.setAttribute("password", password);
+            request.setAttribute("error", "Username is already used");
+            request.getRequestDispatcher("Views/Register.jsp").forward(request, response);
         }
 
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }
