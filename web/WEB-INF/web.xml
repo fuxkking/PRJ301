@@ -16,6 +16,10 @@
         <servlet-name>NewServlet1</servlet-name>
         <servlet-class>Controller.NewServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>a</servlet-name>
+        <servlet-class>Controller.a</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -31,5 +35,9 @@
     <servlet-mapping>
         <servlet-name>NewServlet1</servlet-name>
         <url-pattern>/NewServlet1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>a</servlet-name>
+        <url-pattern>/a</url-pattern>
     </servlet-mapping>
 </web-app>
