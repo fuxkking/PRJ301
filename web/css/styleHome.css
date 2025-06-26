@@ -1,0 +1,212 @@
+/* Reset mặc định */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #fff;
+    color: #333;
+}
+
+/* ✅ Navbar */
+.navbar {
+    background: #111;
+    color: #fff;
+    padding: 15px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: orange;
+}
+
+/* Nút đăng nhập / đăng ký */
+.log-resgister {
+    background: orange;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.log-resgister a {
+    color: white;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+/* Nút người dùng có ảnh */
+.User {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.User img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid orange;
+}
+
+/* ✅ Mục thực đơn */
+.menu-section {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.menu-section h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+/* ✅ Thanh tìm kiếm */
+.search-bar {
+    margin: 20px auto;
+    max-width: 400px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    outline: none;
+}
+
+/* ✅ Bộ lọc món ăn */
+.filters {
+    margin: 20px 0;
+}
+
+.filters button {
+    margin: 5px;
+    padding: 8px 16px;
+    border: none;
+    background-color: #f1f1f1;
+    color: #333;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filters button:hover {
+    background-color: #ddd;
+}
+
+.filters button.active {
+    background-color: #111;
+    color: #fff;
+}
+
+/* ✅ Lưới món ăn */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.card {
+    background: #f9f9f9;
+    border-radius: 15px;
+    padding: 20px 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product-img {
+   width: 100%;
+    height: 100%;
+    border-radius: 5%;
+    object-fit: fill;
+    margin-bottom: 15px;
+}
+
+.card-content {
+    background: #111;
+    color: #fff;
+    width: 100%;
+    border-radius: 0 0 15px 15px;
+    padding: 15px;
+    text-align: left;
+}
+
+.card-content h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.card-content p {
+    font-size: 13px;
+    margin: 5px 0;
+    color: #bbb;
+}
+
+.card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.card-bottom span {
+    color: orange;
+    font-weight: bold;
+}
+
+.cart-btn {
+    background: orange;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #fff;
+    font-size: 16px;
+}
+
+/* ✅ Nút xem thêm */
+.view-more {
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: orange;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.view-more:hover {
+    background-color: #e69500;
+}
