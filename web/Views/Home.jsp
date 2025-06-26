@@ -53,7 +53,7 @@
             <!-- ✅ Danh sách món ăn -->
             <div class="product-grid">
                 <div class="card">
-                    <img src="https://source.unsplash.com/100x100/?pizza" class="product-img" alt="Pizza">
+                    <img src="https://th.bing.com/th/id/OIP.r-vhNr2GaqawC_pA0J-PZwHaD7?w=275&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" class="product-img" alt="Pizza">
                     <div class="card-content">
                         <h3>Pizza Thơm Ngon</h3>
                         <p>Đế mỏng, phô mai tan chảy và topping đa dạng.</p>
@@ -77,7 +77,7 @@
                 </div>
 
                 <div class="card">
-                    <img src="https://source.unsplash.com/100x100/?pasta" class="product-img" alt="Pasta">
+                    <img src=https://th.bing.com/th/id/OIP.eW81cXGQcms41xU99jPYWAHaEa?w=311&h=185&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" class="product-img" alt="Pasta">
                     <div class="card-content">
                         <h3>Mì Ý Kem</h3>
                         <p>Sốt kem đậm đà, mì ống kiểu Ý truyền thống.</p>
