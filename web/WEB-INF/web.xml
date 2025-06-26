@@ -20,6 +20,14 @@
         <servlet-name>a</servlet-name>
         <servlet-class>Controller.a</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Home</servlet-name>
+        <servlet-class>Controller.Home</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FilterCategory</servlet-name>
+        <servlet-class>Controller.FilterCategory</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -39,5 +47,13 @@
     <servlet-mapping>
         <servlet-name>a</servlet-name>
         <url-pattern>/a</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/Home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FilterCategory</servlet-name>
+        <url-pattern>/FilterCategory</url-pattern>
     </servlet-mapping>
 </web-app>

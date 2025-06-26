@@ -8,7 +8,6 @@ import DAL.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,11 +15,10 @@ import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author Admin
+ * @author hgduy
  */
-public class Login extends HttpServlet {
+public class Home extends HttpServlet {
 
-    //choduyancut
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,10 +36,10 @@ public class Login extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Login</title>");
+            out.println("<title>Servlet Home</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Login at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Home at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,21 +57,11 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Cookie[] cookies = request.getCookies();
-        String username = "";
-
-        if (cookies != null) {
-            for (Cookie c : cookies) {
-                if (c.getName().equals("username")) {
-                    username = c.getValue();
-                }
-
-            }
-        }
-
-        request.setAttribute("username", username);
-
-        request.getRequestDispatcher("Views/Login.jsp").forward(request, response);
+        UserDAO d = new UserDAO();
+        HttpSession session = request.getSession();
+        session.setAttribute("category", d.getAllCategory());
+        session.setAttribute("product", d.getAllProduct());
+        response.sendRedirect("Views/Home.jsp");
     }
 
     /**
@@ -87,19 +75,24 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        UserDAO d = new UserDAO();
-        HttpSession session = request.getSession();
-        if (d.getAccount(username, password) != null) {
-            session.setAttribute("account", d.getAccount(username, password));
-            response.sendRedirect("Home");
-        } else {
-            request.setAttribute("error", "Username or password incorrect");
-            request.setAttribute("username", username);
-            request.setAttribute("password", password);
-            request.getRequestDispatcher("Views/Login.jsp").forward(request, response);
+        try {
+            UserDAO d = new UserDAO();
+            HttpSession session = request.getSession();
+            String categorySearch = request.getParameter("categorySearch");
+
+            if (categorySearch.equals("all")) {
+                session.setAttribute("product", d.getAllProduct());
+                request.setAttribute("cateChoice", 0);
+            } else {
+                int categoryID = Integer.parseInt(request.getParameter("categorySearch"));
+                session.setAttribute("product", d.getProductByCategory(categoryID));
+                request.setAttribute("cateChoice", categoryID);
+            }
+            request.getRequestDispatcher("Views/Home.jsp").forward(request, response);
+        } catch (Exception e) {
+            System.out.println(e);
         }
+
     }
 
     /**
