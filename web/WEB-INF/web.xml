@@ -28,6 +28,14 @@
         <servlet-name>FilterCategory</servlet-name>
         <servlet-class>Controller.FilterCategory</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Search</servlet-name>
+        <servlet-class>Controller.Search</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CRUD</servlet-name>
+        <servlet-class>Controller.CRUD</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -55,5 +63,13 @@
     <servlet-mapping>
         <servlet-name>FilterCategory</servlet-name>
         <url-pattern>/FilterCategory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Search</servlet-name>
+        <url-pattern>/Search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CRUD</servlet-name>
+        <url-pattern>/CRUD</url-pattern>
     </servlet-mapping>
 </web-app>

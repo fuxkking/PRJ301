@@ -122,11 +122,37 @@ public class ProductDAO extends DBContext{
         } catch (SQLException ex) {
         }
         return products;
-
     }
+    
+    public ArrayList<Product> searchProuctsByName(String name){
+        ArrayList<Product> products = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM [products] where name like N'%"+name+"%'";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                    Product a = new Product(
+                            rs.getInt("productID"),
+                            (getCategoryByID(rs.getInt("categoryID"))),
+                            rs.getString("name"),
+                            rs.getFloat("price"),
+                            rs.getString("description"),
+                            rs.getInt("sold"),
+                            rs.getFloat("rating"),
+                            rs.getString("image"),
+                            rs.getInt("quantity")
+                    );
+                    products.add(a);
+            }
+        } catch (SQLException ex) {
+        }
+        return products;
+    }
+    
+    
     public static void main(String[] args) {
         ProductDAO d = new ProductDAO();
-        ArrayList<Product> p = d.getTop5BestSeller();
+        ArrayList<Product> p = d.searchProuctsByName("Cơm");
         for (Product product : p) {
             System.out.println(product);
         }

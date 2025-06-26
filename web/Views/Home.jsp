@@ -4,7 +4,7 @@
 <html lang="vi">
     <head>
         <meta charset="UTF-8">
-        <title>Thực Đơn Feane</title>
+        <title>Fake Restaurant</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styleHome.css">
     </head>
     <body>
@@ -53,10 +53,11 @@
 
         <section class="menu-section">
             <h2>Thực Đơn Của Chúng Tôi</h2>
-
-            <div class="search-bar">
-                <input type="text" placeholder="🔍 Tìm món ăn... (không hoạt động)">
-            </div>
+            <form action="Search" method="post">
+                <div class="search-bar">
+                    <input type="text" name="search-product"  value="${productname}" placeholder="🔍 Tìm món ăn... (không hoạt động)">
+                </div>
+            </form>
             <div class="filters">
                 <form action="${pageContext.request.contextPath}/Home" method="post">
                     <button <c:if test="${cateChoice == null || cateChoice == 0}">class="active"</c:if> name="categorySearch" value="all">Tất cả</button>
