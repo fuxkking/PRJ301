@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAL;
 
 import Models.Category;
+import Models.Paging;
 import Models.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,10 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- *
- * @author hgduy
+ * Data Access Object for Product and Category.
  */
-public class ProductDAO extends DBContext{
+public class ProductDAO extends DBContext {
+
     private Connection connection;
     private String status = "ok";
 
@@ -27,133 +24,155 @@ public class ProductDAO extends DBContext{
             status = "Connection failed: " + e.getMessage();
         }
     }
+
     public ArrayList<Product> getAllProduct() {
         ArrayList<Product> products = new ArrayList<>();
         try {
-
             String sql = "SELECT * FROM [products]";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                if (getCategoryByID(rs.getInt("categoryID")) != null) {
-                    Product a = new Product(
-                            rs.getInt("productID"),
-                            (getCategoryByID(rs.getInt("categoryID"))),
-                            rs.getString("name"),
-                            rs.getFloat("price"),
-                            rs.getString("description"),
-                            rs.getInt("sold"),
-                            rs.getFloat("rating"),
-                            rs.getString("image"),
-                            rs.getInt("quantity")
+                Category category = getCategoryByID(rs.getInt("categoryID"));
+                if (category != null) {
+                    Product p = new Product(
+                        rs.getInt("productID"),
+                        category,
+                        rs.getString("name"),
+                        rs.getFloat("price"),
+                        rs.getString("description"),
+                        rs.getInt("sold"),
+                        rs.getFloat("rating"),
+                        rs.getString("image"),
+                        rs.getInt("quantity")
                     );
-                    products.add(a);
+                    products.add(p);
                 }
-
             }
         } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return products;
+    }
 
+    public ArrayList<Category> getAllCategory() {
+        ArrayList<Category> categories = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM [categories]";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Category c = new Category(
+                    rs.getInt("categoryID"),
+                    rs.getString("name")
+                );
+                categories.add(c);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return categories;
     }
 
     public Category getCategoryByID(int id) {
-        ArrayList<Category> category = getAllCategory();
-        for (Category category1 : category) {
-            if (category1.getCategoryID() == id) {
-                return category1;
+        for (Category c : getAllCategory()) {
+            if (c.getCategoryID() == id) {
+                return c;
             }
         }
         return null;
     }
 
-    public ArrayList<Category> getAllCategory() {
-        ArrayList<Category> category = new ArrayList<>();
-        try {
-
-            String sql = "SELECT * FROM [categories]";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            ResultSet rs = stm.executeQuery();
-            while (rs.next()) {
-                Category a = new Category(
-                        rs.getInt("categoryID"),
-                        rs.getString("name"));
-
-                category.add(a);
-            }
-        } catch (SQLException ex) {
-        }
-        return category;
-
-    }
-    public ArrayList<Product> getProductByCategory(int categoryID){
-        ArrayList<Product> p = new ArrayList<>();
-        for (Product product : getAllProduct()) {
-            if(product.getCategory().getCategoryID() == categoryID){
-                p.add(product);
+    public ArrayList<Product> getProductByCategory(int categoryID) {
+        ArrayList<Product> result = new ArrayList<>();
+        for (Product p : getAllProduct()) {
+            if (p.getCategory().getCategoryID() == categoryID) {
+                result.add(p);
             }
         }
-        return p;
+        return result;
     }
-    public ArrayList<Product> getTop5BestSeller(){
+
+    public ArrayList<Product> getTop4BestSeller() {
         ArrayList<Product> products = new ArrayList<>();
         try {
-
-            String sql = "SELECT top (4) * FROM [products] order by sold desc";
+            String sql = "SELECT TOP (4) * FROM [products] ORDER BY sold DESC";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                if (getCategoryByID(rs.getInt("categoryID")) != null) {
-                    Product a = new Product(
-                            rs.getInt("productID"),
-                            (getCategoryByID(rs.getInt("categoryID"))),
-                            rs.getString("name"),
-                            rs.getFloat("price"),
-                            rs.getString("description"),
-                            rs.getInt("sold"),
-                            rs.getFloat("rating"),
-                            rs.getString("image"),
-                            rs.getInt("quantity")
+                Category category = getCategoryByID(rs.getInt("categoryID"));
+                if (category != null) {
+                    Product p = new Product(
+                        rs.getInt("productID"),
+                        category,
+                        rs.getString("name"),
+                        rs.getFloat("price"),
+                        rs.getString("description"),
+                        rs.getInt("sold"),
+                        rs.getFloat("rating"),
+                        rs.getString("image"),
+                        rs.getInt("quantity")
                     );
-                    products.add(a);
+                    products.add(p);
                 }
-
             }
         } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return products;
     }
-    
-    public ArrayList<Product> searchProuctsByName(String name){
+
+    public ArrayList<Product> searchProuctsByName(String name) {
         ArrayList<Product> products = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM [products] where name like N'%"+name+"%'";
+            String sql = "SELECT * FROM [products] WHERE name LIKE N'%" + name + "%'";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                    Product a = new Product(
-                            rs.getInt("productID"),
-                            (getCategoryByID(rs.getInt("categoryID"))),
-                            rs.getString("name"),
-                            rs.getFloat("price"),
-                            rs.getString("description"),
-                            rs.getInt("sold"),
-                            rs.getFloat("rating"),
-                            rs.getString("image"),
-                            rs.getInt("quantity")
+                Category category = getCategoryByID(rs.getInt("categoryID"));
+                if (category != null) {
+                    Product p = new Product(
+                        rs.getInt("productID"),
+                        category,
+                        rs.getString("name"),
+                        rs.getFloat("price"),
+                        rs.getString("description"),
+                        rs.getInt("sold"),
+                        rs.getFloat("rating"),
+                        rs.getString("image"),
+                        rs.getInt("quantity")
                     );
-                    products.add(a);
+                    products.add(p);
+                }
             }
         } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return products;
     }
-    
-    public static void main(String[] args) {
-        ProductDAO d = new ProductDAO();
-        ArrayList<Product> p = d.searchProuctsByName("Cơm");
-        for (Product product : p) {
-            System.out.println(product);
+
+    public ArrayList<Paging> getDataForPage(ArrayList<Product> productList) {
+        ArrayList<Paging> pages = new ArrayList<>();
+        int itemsPerPage = 8;
+        int totalItems = productList.size();
+        int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+
+        for (int i = 0; i < totalPages; i++) {
+            int start = i * itemsPerPage;
+            int end = Math.min(start + itemsPerPage, totalItems);
+            ArrayList<Product> subList = new ArrayList<>(productList.subList(start, end));
+
+            Paging paging = new Paging();
+            paging.setCurrentPageItems(subList);
+            paging.setCurrentPage(i + 1);
+            paging.setTotalPages(totalPages);
+
+            pages.add(paging);
         }
+
+        return pages;
+    }
+
+    public static void main(String[] args) {
+        
     }
 }

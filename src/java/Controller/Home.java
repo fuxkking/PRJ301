@@ -1,69 +1,102 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package Controller;
 
 import DAL.ProductDAO;
-import DAL.UserDAO;
+import Models.Paging;
+import Models.Product;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-/**
- *
- * @author hgduy
- */
 public class Home extends HttpServlet {
 
-   
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductDAO d = new ProductDAO();
-        HttpSession session = request.getSession();
-        session.setAttribute("category", d.getAllCategory());
-        session.setAttribute("product", d.getAllProduct());
-        session.setAttribute("bestSellerProducts", d.getTop5BestSeller());
-        request.getRequestDispatcher("Views/Home.jsp").forward(request, response);
+        try {
+            ProductDAO dao = new ProductDAO();
+            HttpSession session = request.getSession();
+
+            String pageNum = request.getParameter("pageNum");
+            int page = (pageNum == null) ? 1 : Integer.parseInt(pageNum);
+
+            Object categoryFilter = session.getAttribute("categoryFilter");
+            ArrayList<Paging> pages;
+
+            if (categoryFilter == null || "all".equals(categoryFilter)) {
+                pages = dao.getDataForPage(dao.getAllProduct());
+                session.setAttribute("cateChoice", 0);
+            } else {
+                int categoryID = (int) categoryFilter;
+                pages = dao.getDataForPage(dao.getProductByCategory(categoryID));
+                session.setAttribute("cateChoice", categoryID);
+            }
+
+            if (page < 1) page = 1;
+            if (page > pages.size()) page = pages.size();
+
+            session.setAttribute("page", pages);
+            session.setAttribute("pageCurrent", page);
+            session.setAttribute("product", pages.get(page - 1).getCurrentPageItems());
+
+            // Các thông tin chung
+            session.setAttribute("category", dao.getAllCategory());
+            session.setAttribute("bestSellerProducts", dao.getTop4BestSeller());
+
+            request.getRequestDispatcher("Views/Home.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
- 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            ProductDAO d = new ProductDAO();
+            ProductDAO dao = new ProductDAO();
             HttpSession session = request.getSession();
-            String categorySearch = request.getParameter("categorySearch");
 
-            if (categorySearch.equals("all")) {
-                session.setAttribute("product", d.getAllProduct());
-                request.setAttribute("cateChoice", 0);
+            String categorySearch = request.getParameter("categorySearch");
+            int pageCurrent = 1;
+            ArrayList<Paging> pages;
+            List<Product> currentPageItems;
+
+            if ("all".equals(categorySearch)) {
+                pages = dao.getDataForPage(dao.getAllProduct());
+                session.setAttribute("categoryFilter", "all");
+                session.setAttribute("cateChoice", 0);
             } else {
-                int categoryID = Integer.parseInt(request.getParameter("categorySearch"));
-                session.setAttribute("product", d.getProductByCategory(categoryID));
-                request.setAttribute("cateChoice", categoryID);
+                int categoryID = Integer.parseInt(categorySearch);
+                pages = dao.getDataForPage(dao.getProductByCategory(categoryID));
+                session.setAttribute("categoryFilter", categoryID);
+                session.setAttribute("cateChoice", categoryID);
             }
+
+            session.setAttribute("page", pages);
+            session.setAttribute("pageCurrent", pageCurrent);
+
+            if (!pages.isEmpty()) {
+                currentPageItems = pages.get(pageCurrent - 1).getCurrentPageItems();
+            } else {
+                currentPageItems = new ArrayList<>();
+            }
+
+            session.setAttribute("product", currentPageItems);
+            session.setAttribute("category", dao.getAllCategory());
+            session.setAttribute("bestSellerProducts", dao.getTop4BestSeller());
+
             request.getRequestDispatcher("Views/Home.jsp").forward(request, response);
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
-
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Servlet for home page with filtering and pagination support.";
+    }
 }
