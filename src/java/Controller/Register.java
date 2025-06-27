@@ -77,13 +77,13 @@ public class Register extends HttpServlet {
         String password = request.getParameter("password");
         String confirmPass = request.getParameter("confirmPassword");
         UserDAO d = new UserDAO();
-        //phone
-        //password
         //Username
         if (!d.isUsernameDuplicate(username)) {
             //email
             if (!d.isEmailDuplicate(email)) {
+                //phone
                 if (!d.isPhoneDuplicate(phone)) {
+                    //password
                     if (!password.equals(confirmPass)) {
                         request.setAttribute("username", username);
                         request.setAttribute("email", email);

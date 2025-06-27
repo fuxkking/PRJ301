@@ -6,29 +6,10 @@
         <meta charset="UTF-8">
         <title>Fake Restaurant</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styleHome.css">
+        <jsp:include page="/Views/Header.jsp" />
     </head>
     <body>
-        <!-- ✅ Thanh điều hướng -->
-        <header class="navbar">
-            <div class="logo">Fake Restaurant</div>
-            <nav class="nav-links">
-                <a href="Views/Home.jsp">TRANG CHỦ</a>
-                <a href="#">THỰC ĐƠN</a>
-                <a href="#">GIỚI THIỆU</a>
-                <a href="#">ĐẶT BÀN</a>
-            </nav>
-            <c:if test="${sessionScope.account == null}">
-                <button class="log-resgister">
-                    <a href="${pageContext.request.contextPath}/Views/Login.jsp">Login </a>|
-                    <a href="${pageContext.request.contextPath}/Views/Register.jsp">Sign Up</a>
-                </button>
-            </c:if>
-            <c:if test="${sessionScope.account != null}">
-                <a href="${pageContext.request.contextPath}/Views/Profile.jsp" class="User">
-                    <img src="${account.getImage()}">
-                </a>
-            </c:if>
-        </header>
+  
 
         <!-- ✅ Sản phẩm bán chạy nhất -->
         <section class="menu-section">
@@ -84,6 +65,8 @@
 
             <button class="view-more">Xem Thêm</button>
         </section>
+        <!--footer-->
+        <jsp:include page="/Views/Footer.jsp" />
 
     </body>
 </html>

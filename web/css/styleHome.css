@@ -213,3 +213,11 @@ body {
 .view-more:hover {
     background-color: #e69500;
 }
+
+.footer-container{
+    display: flex;
+    flex-direction:  column;
+    text-align: center;
+    color: white;
+    background-color: black;
+}

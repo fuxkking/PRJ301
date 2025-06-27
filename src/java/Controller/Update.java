@@ -18,12 +18,12 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Lenovo
  */
-public class userUpdate extends HttpServlet {
+public class Update extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     @Override
@@ -35,11 +35,11 @@ public class userUpdate extends HttpServlet {
         String email = request.getParameter("email");
         String image = request.getParameter("image");
         dao.updateUser(user.getUserID(), image, phone, email);
-         user.setEmail(email);
+        user.setEmail(email);
         user.setPhone(phone);
         user.setImage(image);
         request.getSession().setAttribute("account", user);
-        request.getRequestDispatcher("Views/Profile.jsp").forward(request, response);
+        request.getRequestDispatcher("/Views/Profile.jsp").forward(request, response);
     }
 
 }

@@ -34,11 +34,11 @@
     </servlet>
     <servlet>
         <servlet-name>Profile</servlet-name>
-        <servlet-class>Controller.userProfile</servlet-class>
+        <servlet-class>Controller.Profile</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>userUpdate</servlet-name>
-        <servlet-class>Controller.userUpdate</servlet-class>
+        <servlet-name>Update</servlet-name>
+        <servlet-class>Controller.Update</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -74,10 +74,10 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Profile</servlet-name>
-        <url-pattern>/Profile</url-pattern>
+        <url-pattern>/User/Profile</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>userUpdate</servlet-name>
-        <url-pattern>/userUpdate</url-pattern>
+        <servlet-name>Update</servlet-name>
+        <url-pattern>/User/Update</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Lenovo
  */
-public class userProfile extends HttpServlet {
+public class Profile extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -27,7 +27,7 @@ public class userProfile extends HttpServlet {
             return;
         }
         request.setAttribute("user", user);
-        request.getRequestDispatcher(request.getContextPath() + "/Profile.jsp").forward(request, response);
+        request.getRequestDispatcher("Views/Profile.jsp").forward(request, response);
     }
 
     @Override
