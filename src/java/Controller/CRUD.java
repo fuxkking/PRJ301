@@ -10,7 +10,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-@WebServlet(name = "ProductAdminServlet", urlPatterns = {"/Admin/ProductAdmin"})
+@WebServlet(name = "CRUD", urlPatterns = {"/CRUD"})
 public class CRUD extends HttpServlet {
 
     AdminDAO dao = new AdminDAO();
@@ -39,7 +39,7 @@ public class CRUD extends HttpServlet {
                 Product p = new Product();
                 p.setProductID(id);
                 dao.DeleteProduct(p);
-                response.sendRedirect(request.getContextPath() + "/Admin/ProductAdmin");
+                response.sendRedirect(request.getContextPath() + "/CRUD");
                 return;
             } catch (NumberFormatException e) {
                 e.printStackTrace();
@@ -84,6 +84,6 @@ public class CRUD extends HttpServlet {
         } catch (Exception e) {
             request.setAttribute("error", "Lỗi dữ liệu: " + e.getMessage());
         }
-        response.sendRedirect(request.getContextPath() + "/Admin/ProductAdmin");
+        response.sendRedirect(request.getContextPath() + "/CRUD");
     }
 }

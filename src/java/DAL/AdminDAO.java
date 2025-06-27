@@ -143,7 +143,7 @@ public class AdminDAO extends DBContext {
 public Product getProductById(int id) {
     Product product = null;
     try {
-        String sql = "SELECT * FROM [products] WHERE productId = ?";
+        String sql = "SELECT * FROM [products] WHERE productID = ?";
         PreparedStatement stm = connection.prepareStatement(sql);
         stm.setInt(1, id); 
         ResultSet rs = stm.executeQuery();

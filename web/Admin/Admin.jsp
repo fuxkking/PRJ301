@@ -32,7 +32,7 @@
                 <div class="modal-content">
                     <span class="close" id="closeAddModal" onclick="closeAddModal()">&times;</span>
                     <h2>Thêm Sản Phẩm Mới</h2>
-                    <form action="${pageContext.request.contextPath}/AddProduct" method="post">
+                    <form action="${pageContext.request.contextPath}/CRUD" method="post">
                         <div class="form-group">
                             <label for="name">Tên sản phẩm</label>
                             <input type="text" id="name" name="name" required placeholder="Nhập tên sản phẩm">
@@ -59,11 +59,50 @@
                             </select>
                         </div>
                         <div class="form-actions">
-                            <button type="submit">Thêm sản phẩm</button>
+                            <button type="submit" name ="btnInsert">Thêm sản phẩm</button>
                         </div>
                     </form>
                 </div>
             </div>
+            <c:if test="${productUpdate != null}">
+                <div id="updateProductModal" class="modal" style="display:block;">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeUpdateModal()">&times;</span>
+                        <h2>Cập Nhật Sản Phẩm</h2>
+                        <form action="${pageContext.request.contextPath}/CRUD" method="post">
+                            <input type="hidden" name="productID" value="${productUpdate.productID}" />
+                            <div class="form-group">
+                                <label for="update_name">Tên sản phẩm</label>
+                                <input type="text" id="update_name" name="name" required value="${productUpdate.name}" placeholder="Nhập tên sản phẩm">
+                            </div>
+                            <div class="form-group">
+                                <label for="update_description">Mô tả</label>
+                                <textarea id="update_description" name="description" required placeholder="Nhập mô tả">${productUpdate.description}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="update_price">Giá</label>
+                                <input type="number" id="update_price" name="price" min="0" step="0.01" required value="${productUpdate.price}" placeholder="Nhập giá">
+                            </div>
+                            <div class="form-group">
+                                <label for="update_image">Link ảnh</label>
+                                <input type="text" id="update_image" name="image" required value="${productUpdate.image}" placeholder="Nhập URL ảnh">
+                            </div>
+                            <div class="form-group">
+                                <label for="update_category">CategoryID</label>
+                                <select id="update_category" name="categoryID" required>
+                                    <option value="">-- Chọn CategoryID --</option>
+                                    <c:forEach items="${sessionScope.category}" var="c">
+                                        <option value="${c.getCategoryID()}" <c:if test="${productUpdate.category.categoryID == c.categoryID}">selected</c:if>>${c.getName()}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" name="btnUpdate">Cập nhật sản phẩm</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </c:if>
             <table class="admin-table">
                 <thead>
                     <tr>
@@ -84,8 +123,8 @@
                             <td>${p.getPrice()}$</td>
                             <td>${p.getCategory().getName()}</td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/EditProduct?id=${p.getProductID()}" class="edit-btn">Sửa</a>
-                                <a href="${pageContext.request.contextPath}/DeleteProduct?id=${p.getProductID()}" class="delete-btn" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+                                <a href="${pageContext.request.contextPath}/CRUD?type=edit&id=${p.getProductID()}" class="edit-btn">Sửa</a>
+                                <a href="${pageContext.request.contextPath}/CRUD?type=delete&id=${p.getProductID()}" class="delete-btn" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
                             </td>
                         </tr>
                     </c:forEach>

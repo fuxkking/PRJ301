@@ -4,6 +4,9 @@ function openModal() {
 function closeAddModal() {
     document.getElementById("addProductModal").style.display = "none";
 }
+function closeUpdateModal() {
+    document.getElementById("updateProductModal").style.display="none";
+}
 
 
 
