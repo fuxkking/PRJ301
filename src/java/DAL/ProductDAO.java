@@ -5,6 +5,7 @@
 package DAL;
 
 import Models.Category;
+import Models.Paging;
 import Models.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +17,8 @@ import java.util.ArrayList;
  *
  * @author hgduy
  */
-public class ProductDAO extends DBContext{
+public class ProductDAO extends DBContext {
+
     private Connection connection;
     private String status = "ok";
 
@@ -27,6 +29,7 @@ public class ProductDAO extends DBContext{
             status = "Connection failed: " + e.getMessage();
         }
     }
+
     public ArrayList<Product> getAllProduct() {
         ArrayList<Product> products = new ArrayList<>();
         try {
@@ -86,16 +89,18 @@ public class ProductDAO extends DBContext{
         return category;
 
     }
-    public ArrayList<Product> getProductByCategory(int categoryID){
+
+    public ArrayList<Product> getProductByCategory(int categoryID) {
         ArrayList<Product> p = new ArrayList<>();
         for (Product product : getAllProduct()) {
-            if(product.getCategory().getCategoryID() == categoryID){
+            if (product.getCategory().getCategoryID() == categoryID) {
                 p.add(product);
             }
         }
         return p;
     }
-    public ArrayList<Product> getTop5BestSeller(){
+
+    public ArrayList<Product> getTop5BestSeller() {
         ArrayList<Product> products = new ArrayList<>();
         try {
 
@@ -123,36 +128,58 @@ public class ProductDAO extends DBContext{
         }
         return products;
     }
-    
-    public ArrayList<Product> searchProuctsByName(String name){
+
+    public ArrayList<Product> searchProuctsByName(String name) {
         ArrayList<Product> products = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM [products] where name like N'%"+name+"%'";
+            String sql = "SELECT * FROM [products] where name like N'%" + name + "%'";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                    Product a = new Product(
-                            rs.getInt("productID"),
-                            (getCategoryByID(rs.getInt("categoryID"))),
-                            rs.getString("name"),
-                            rs.getFloat("price"),
-                            rs.getString("description"),
-                            rs.getInt("sold"),
-                            rs.getFloat("rating"),
-                            rs.getString("image"),
-                            rs.getInt("quantity")
-                    );
-                    products.add(a);
+                Product a = new Product(
+                        rs.getInt("productID"),
+                        (getCategoryByID(rs.getInt("categoryID"))),
+                        rs.getString("name"),
+                        rs.getFloat("price"),
+                        rs.getString("description"),
+                        rs.getInt("sold"),
+                        rs.getFloat("rating"),
+                        rs.getString("image"),
+                        rs.getInt("quantity")
+                );
+                products.add(a);
             }
         } catch (SQLException ex) {
         }
         return products;
     }
-    
+
+    public ArrayList<Paging> getDataForPage(ArrayList<Product> productList) {
+        ArrayList<Paging> pages = new ArrayList<>();
+        int itemsPerPage = 8;
+        int totalItems = productList.size();
+        int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+
+        for (int i = 0; i < totalPages; i++) {
+            int start = i * itemsPerPage;
+            int end = Math.min(start + itemsPerPage, totalItems);
+            ArrayList<Product> subList = new ArrayList<>(productList.subList(start, end));
+
+            Paging paging = new Paging();
+            paging.setCurrentPageItems(subList);
+            paging.setCurrentPage(i + 1);
+            paging.setTotalPages(totalPages);
+
+            pages.add(paging);
+        }
+
+        return pages;
+    }
+
     public static void main(String[] args) {
         ProductDAO d = new ProductDAO();
-        ArrayList<Product> p = d.searchProuctsByName("Cơm");
-        for (Product product : p) {
+        ArrayList<Paging> p = d.getDataForPage(d.getAllProduct());
+        for (Paging product : p) {
             System.out.println(product);
         }
     }

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,6 +34,12 @@
                 </form>
 
             </div>
+            <c:if test="${requestScope.filterError != null}">
+                <script>
+                    alert("${requestScope.filterError}");
+                </script>
+            </c:if>
+
         </div>
     </body>
 </html>

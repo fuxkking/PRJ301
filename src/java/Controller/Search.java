@@ -5,7 +5,7 @@
 package Controller;
 
 import DAL.ProductDAO;
-
+import Models.Paging;
 import java.io.IOException;
 import Models.Product;
 import java.io.PrintWriter;
@@ -34,8 +34,17 @@ public class Search extends HttpServlet {
         String nameProduct = request.getParameter("search-product");
         HttpSession ses = request.getSession();
         ArrayList<Product> listProduct = dao.searchProuctsByName(nameProduct);
-        ses.setAttribute("product", listProduct);
+        ArrayList<Paging> pages = dao.getDataForPage(listProduct);
+        int pageCurrent = 1;
+        if (!pages.isEmpty()) {
+            ses.setAttribute("product", pages.get(pageCurrent - 1).getCurrentPageItems());
+        } else {
+            ses.setAttribute("product", new ArrayList<>());
+        }
+        ses.setAttribute("page", pages);
+        ses.setAttribute("pageCurrent", pageCurrent); 
         request.setAttribute("productname", nameProduct);
+        ses.setAttribute("searchProductKeyword", nameProduct);
         request.getRequestDispatcher("Views/Home.jsp").forward(request, response);
     }
 

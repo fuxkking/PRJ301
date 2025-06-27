@@ -213,3 +213,28 @@ body {
 .view-more:hover {
     background-color: #e69500;
 }
+.pagination {
+    text-align: center;
+    margin: 30px auto;
+}
+
+.pagination a {
+    color: black;
+    display: inline-block;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+}
+
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
